@@ -26,6 +26,7 @@ import timeLineImage2lottoBalls from "@/assets/timeline-images/timeline-image-lo
 import timeLineImage3lottoBalls from "@/assets/timeline-images/timeline-image-lottoBalls3.png";
 import timeLineImage4lottoBalls from "@/assets/timeline-images/timeline-image-lottoBalls4.png";
 import MobileMenu from "@/components/MobileMenu";
+import { OrbitSkills } from "@/components/OrbitSkills";
 
 const menuItems = [
   { id: "profile", label: "Profile" },
@@ -122,6 +123,8 @@ const AboutMe = () => {
                 Library), RESTful API, GraphQL
               </li>
             </ul>
+
+            <OrbitSkills />
           </div>
         );
       case "experience":
