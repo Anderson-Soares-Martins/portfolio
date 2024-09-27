@@ -2,21 +2,44 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ProjectCard from "@/components/ProjectCard";
+import banner1 from "@/assets/banner-pague-safe.png";
+import banner2 from "@/assets/banner-convert-img-3d.png";
+import banner3 from "@/assets/banner-covert-text.png";
+import banner4 from "@/assets/banner-handyman.png";
 
 const projects = [
   {
-    title: "Project 1",
-    description: "This is a description of project 1",
-    imageUrl: "/project1.png",
+    title: "Pague Safe",
+    description: "landing page gateway de pagamento",
+    imageUrl: banner1.src,
     demoUrl:
       "https://d1etqblq65l80m.cloudfront.net/6ixu5d0sgfq88p0rsyxsgaqzeo6e",
     repoUrl:
       "https://d1etqblq65l80m.cloudfront.net/6ixu5d0sgfq88p0rsyxsgaqzeo6e"
   },
   {
-    title: "Project 2",
-    description: "This is a description of project 2",
-    imageUrl: "/project2.png",
+    title: "Convert img to 3d",
+    description: "Landing page to convert images to 3d models",
+    imageUrl: banner2.src,
+    demoUrl:
+      "https://d1etqblq65l80m.cloudfront.net/6ixu5d0sgfq88p0rsyxsgaqzeo6e",
+    repoUrl:
+      "https://d1etqblq65l80m.cloudfront.net/6ixu5d0sgfq88p0rsyxsgaqzeo6e"
+  },
+  {
+    title: "Convert text",
+    description:
+      "This is a automation site to change text of file for wolds of excel",
+    imageUrl: banner3.src,
+    demoUrl:
+      "https://d1etqblq65l80m.cloudfront.net/6ixu5d0sgfq88p0rsyxsgaqzeo6e",
+    repoUrl:
+      "https://d1etqblq65l80m.cloudfront.net/6ixu5d0sgfq88p0rsyxsgaqzeo6e"
+  },
+  {
+    title: "Landing page Handyman",
+    description: "Site to shows services of handyman",
+    imageUrl: banner4.src,
     demoUrl:
       "https://d1etqblq65l80m.cloudfront.net/6ixu5d0sgfq88p0rsyxsgaqzeo6e",
     repoUrl:
@@ -35,7 +58,6 @@ export default function Projects() {
           ))}
         </div>
       </main>
-      <Footer />
     </div>
   );
 }

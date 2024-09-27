@@ -1,46 +1,57 @@
 "use client";
 
-// components/Header.tsx
+import React, { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { useTheme } from "next-themes";
-import { Moon, Sun } from "lucide-react";
+import { Moon, Sun, Menu, X } from "lucide-react";
 
 export default function Header() {
-  const [navbarOpen, setNavbarOpen] = React.useState(false);
+  const [navbarOpen, setNavbarOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 w-full bg-background/80 backdrop-blur-sm z-50">
-      <div className="flex flex-row items-center justify-between p-5 md:p-1 md:px-5">
-        <Link href="/" className="text-2xl font-bold">
-          <Image
-            src="/logo.svg"
-            alt="Logo"
-            width={40}
-            height={40}
-            className="cursor-pointer"
-          />
-        </Link>
-        <div
-          className={
-            "md:flex flex-grow items-center" +
-            (navbarOpen ? " flex" : " hidden")
-          }
-        >
-          <div className="w-1/2 md:ml-auto md:mr-auto font-4 pt-1 md:pl-14 pl-1 flex flex-wrap items-center md:text-base text-1xl md:justify-center justify-items-start">
-            <nav>
-              <Button variant="ghost" asChild>
-                <Link href="/about">About</Link>
-              </Button>
-              <Button variant="ghost" asChild>
-                <Link href="/projects">Projects</Link>
-              </Button>
-              <Button variant="ghost" asChild>
-                <Link href="/contact">Contact</Link>
-              </Button>
-            </nav>
-          </div>
+    <header className="sticky top-0 w-full bg-background/60 backdrop-blur-sm z-50 border-b-[1px] border-b-primary/10 shadow-md">
+      <div className="flex items-center justify-between p-4 md:p-5">
+        <div className="flex items-center">
+          <Link href="/" className="mr-4">
+            <Image
+              src="/logo.svg"
+              alt="Logo"
+              width={40}
+              height={40}
+              className="cursor-pointer"
+            />
+          </Link>
+          <button
+            className="md:hidden"
+            onClick={() => setNavbarOpen(!navbarOpen)}
+          >
+            {navbarOpen ? (
+              <X className="h-6 w-6" />
+            ) : (
+              <Menu className="h-6 w-6" />
+            )}
+          </button>
         </div>
+
+        <nav
+          className={`${
+            navbarOpen ? "flex" : "hidden"
+          } md:flex flex-col md:flex-row absolute md:static top-full left-0 w-full md:w-auto bg-background md:bg-transparent py-4 md:py-0`}
+        >
+          <div className="flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-4">
+            <Button variant="ghost" asChild className="w-full md:w-auto">
+              <Link href="/about">About</Link>
+            </Button>
+            <Button variant="ghost" asChild className="w-full md:w-auto">
+              <Link href="/projects">Projects</Link>
+            </Button>
+            <Button variant="ghost" asChild className="w-full md:w-auto">
+              <Link href="/contact">Contact</Link>
+            </Button>
+          </div>
+        </nav>
 
         <ThemeToggle />
       </div>
@@ -63,6 +74,3 @@ const ThemeToggle = () => {
     </Button>
   );
 };
-
-import React from "react";
-import Image from "next/image";
