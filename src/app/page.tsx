@@ -11,7 +11,7 @@ export default function Home() {
       className="w-full flex-1
      flex flex-col justify-center items-center px-4 py-8 gap-y-8 sm:gap-y-16"
     >
-      <div className="shadow-move" />
+      <div className="shadow-blue" />
       <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-center">
         Welcome to My Portfolio
       </h1>
