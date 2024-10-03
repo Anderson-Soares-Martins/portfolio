@@ -20,8 +20,8 @@ export default function Home() {
           <Image
             src="/logo.svg"
             alt="Anderson Soares Martins"
-            width={150}
-            height={150}
+            width={128}
+            height={128}
             className="w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 lg:w-56 lg:h-56"
           />
           <p className="text-primary text-2xl sm:text-3xl md:text-4xl mt-4 text-center">

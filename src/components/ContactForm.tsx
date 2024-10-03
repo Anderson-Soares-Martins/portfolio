@@ -10,15 +10,37 @@ export default function ContactForm() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Aqui você implementaria a lógica para enviar o formulário
-    console.log({ name, email, message });
-    // Reset form
-    setName("");
-    setEmail("");
-    setMessage("");
+    setLoading(true);
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ name, email, message })
+      });
+
+      if (res.ok) {
+        setSuccess(true);
+        setName("");
+        setEmail("");
+        setMessage("");
+      } else {
+        const errorData = await res.json();
+        setError(errorData.message || "Failed to send message");
+      }
+    } catch (error) {
+      setError("An unexpected error occurred.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -49,7 +71,11 @@ export default function ContactForm() {
           required
         />
       </div>
-      <Button type="submit">Send Message</Button>
+      <Button type="submit" disabled={loading}>
+        {loading ? "Sending..." : "Send Message"}
+      </Button>
+      {success && <p>Your message has been sent successfully!</p>}
+      {error && <p className="text-red-500">{error}</p>}
     </form>
   );
 }
