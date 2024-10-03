@@ -1,6 +1,8 @@
 import { Mail, Phone, Linkedin } from "lucide-react";
 import { forwardRef } from "react";
 import { FaGithub } from "react-icons/fa";
+import ImageProfile from "@/assets/photo-perfil.png";
+import Image from "next/image";
 
 export const Profile = forwardRef<
   HTMLDivElement,
@@ -28,13 +30,24 @@ export const Profile = forwardRef<
 
   return (
     <div id="profile" className="space-y-6" ref={ref}>
-      <h1 className="scroll-m-20 text-4xl font-bold tracking-tight">
-        Anderson Soares Martins
-      </h1>
-      <div className="space-y-2">
-        <p>Age: {age} years old</p>
-        <p>Location: Palhoça, SC</p>
-        <ContactInfo />
+      <div className="relative flex flex-col justify-between">
+        <div className="space-y-6 mb-8 sm:mb-10 lg:mb-20">
+          <h1 className="scroll-m-20 text-4xl font-bold tracking-tight">
+            Anderson Soares Martins
+          </h1>
+          <div className="space-y-2">
+            <p>Age: {age} years old</p>
+            <p>Location: Palhoça, SC</p>
+            <ContactInfo />
+          </div>
+        </div>
+        <Image
+          src={ImageProfile}
+          alt="Anderson Soares Martins"
+          width={250}
+          height={450}
+          className="sm:absolute left-[65%] top-16 w-1/2 sm:w-[25%] md:w-[27%] lg:w-[20%] rounded-3xl"
+        />
       </div>
       <ProfessionalSummary />
     </div>
