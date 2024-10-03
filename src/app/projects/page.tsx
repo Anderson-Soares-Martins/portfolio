@@ -10,7 +10,7 @@ import banner4 from "@/assets/banner-handyman.png";
 const projects = [
   {
     title: "Pague Safe",
-    description: "landing page gateway de pagamento",
+    description: "Landing page gateway de pagamento",
     imageUrl: banner1.src,
     demoUrl: "https://paguesafe.com/",
     repoUrl: "https://github.com/Anderson-Soares-Martins/pague-safe-project"
