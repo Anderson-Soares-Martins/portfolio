@@ -4,7 +4,7 @@ export default function Footer() {
     <footer className="text-center p-4 bg-background border-t-[1px] border-t-primary/10 shadow-md ">
       <p>
         &copy; {new Date().getFullYear()} Anderson Soares Martins. All rights
-        reserved.
+        reserved. Built with Next.js. Hosted on Vercel. Version 1.0.0
       </p>
     </footer>
   );
