@@ -10,7 +10,6 @@ export default function Contact() {
         <h1 className="text-4xl font-bold mb-8">Contact Me</h1>
         <ContactForm />
       </main>
-      <Footer />
     </div>
   );
 }
