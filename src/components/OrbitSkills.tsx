@@ -3,7 +3,7 @@ import IconCloud from "@/components/magicui/icon-cloud";
 const slugs = [
   "typescript",
   "javascript",
-  "dart",
+  // "dart",
   "java",
   "react",
   "flutter",
@@ -17,11 +17,11 @@ const slugs = [
   "amazonaws",
   "postgresql",
   "firebase",
-  "nginx",
+  // "nginx",
   "vercel",
   "testinglibrary",
   "jest",
-  "cypress",
+  // "cypress",
   "docker",
   "git",
   "jira",
@@ -29,7 +29,7 @@ const slugs = [
   "gitlab",
   "visualstudiocode",
   "androidstudio",
-  "sonarqube",
+  // "sonarqube",
   "figma"
 ];
 
