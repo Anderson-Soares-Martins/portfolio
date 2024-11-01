@@ -34,7 +34,7 @@ const projects = [
     title: "Landing page Handyman",
     description: "Site to shows services of handyman",
     imageUrl: banner4.src,
-    demoUrl: "https://maridodealuguel.andersoaresmartins.com.br/",
+    demoUrl: "https://andersonreparos.com.br/",
     repoUrl: "https://github.com/Anderson-Soares-Martins/landing-page-handyman"
   }
 ];

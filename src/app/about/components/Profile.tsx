@@ -103,12 +103,13 @@ const ProfessionalSummary = () => (
       Professional Summary
     </h2>
     <p className="leading-7 [&:not(:first-child)]:mt-6">
-      Dedicated Frontend Developer with 2 years of experience, specializing in
-      React, Next.js, and React Native. Seeking to join a dynamic team to
-      contribute technical expertise and soft skills in creating innovative web
-      and mobile solutions. Possesses a solid understanding of HTML, CSS,
-      JavaScript, and responsive design principles, complemented by strong
-      communication, teamwork, and problem-solving abilities.
+      Dedicated Developer with 2 years of experience, specializing in React,
+      Next.js, and React Native. Seeking to join a dynamic team to contribute
+      technical expertise and soft skills in creating innovative web and mobile
+      solutions. Possesses a solid understanding of HTML, CSS, JavaScript, and
+      responsive design principles, complemented by strong communication,
+      teamwork, and problem-solving abilities. I have been learning the backend
+      part as well to help and develop full-stack applications.
     </p>
   </div>
 );
