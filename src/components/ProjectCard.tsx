@@ -14,15 +14,13 @@ interface ProjectCardProps {
   description: string;
   imageUrl: string;
   demoUrl: string;
-  repoUrl: string;
 }
 
 export default function ProjectCard({
   title,
   description,
   imageUrl,
-  demoUrl,
-  repoUrl
+  demoUrl
 }: ProjectCardProps) {
   return (
     <Card className="w-full max-w-md">
@@ -44,12 +42,7 @@ export default function ProjectCard({
       <CardFooter className="flex justify-between">
         <Button asChild>
           <a href={demoUrl} target="_blank" rel="noopener noreferrer">
-            View Demo
-          </a>
-        </Button>
-        <Button variant="outline" asChild>
-          <a href={repoUrl} target="_blank" rel="noopener noreferrer">
-            View Code
+            View
           </a>
         </Button>
       </CardFooter>

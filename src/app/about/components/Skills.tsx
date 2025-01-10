@@ -13,7 +13,7 @@ export const Skills = forwardRef<
         </h1>
       </div>
       <ul className="list-disc pl-6 space-y-2">
-        <li>Languages: JavaScript, TypeScript, SQL</li>
+        <li>Languages: JavaScript, TypeScript, SQL, Python, Java</li>
         <li>
           Frameworks and Libraries: React, Next.js, React Native, Tailwind CSS,
           Styled-components

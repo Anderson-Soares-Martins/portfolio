@@ -12,30 +12,20 @@ const projects = [
     title: "Pague Safe",
     description: "Landing page gateway de pagamento",
     imageUrl: banner1.src,
-    demoUrl: "https://paguesafe.com/",
-    repoUrl: "https://github.com/Anderson-Soares-Martins/pague-safe-project"
-  },
-  {
-    title: "Convert img to 3d",
-    description: "Landing page to convert images to 3d models",
-    imageUrl: banner2.src,
-    demoUrl: "https://imgto3d.andersoaresmartins.com.br/",
-    repoUrl: "https://github.com/Anderson-Soares-Martins/landing-page-img-to-3d"
+    demoUrl: "https://paguesafe.com/"
   },
   {
     title: "Convert text",
     description:
       "This is a automation site to change text of file for another text of excel file",
     imageUrl: banner3.src,
-    demoUrl: "https://webappazul.andersoaresmartins.com.br/",
-    repoUrl: "https://github.com/Anderson-Soares-Martins/WEBAPP_AZUL"
+    demoUrl: "https://webappazul.andersoaresmartins.com.br/"
   },
   {
     title: "Landing page Handyman",
     description: "Site to shows services of handyman",
     imageUrl: banner4.src,
-    demoUrl: "https://andersonreparos.com.br/",
-    repoUrl: "https://github.com/Anderson-Soares-Martins/landing-page-handyman"
+    demoUrl: "https://andersonreparos.com.br/"
   }
 ];
 
