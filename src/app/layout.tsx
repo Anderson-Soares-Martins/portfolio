@@ -1,33 +1,39 @@
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import "./globals.css";
-import { ThemeProvider } from "@/components/ThemeProvider";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
+import type { Metadata } from 'next'
+import { Inter } from 'next/font/google'
+import './globals.css'
+import { ThemeProvider } from '@/components/ThemeProvider'
+import Header from '@/components/Header'
+import Footer from '@/components/Footer'
+import { GoogleTagManager } from '@next/third-parties/google'
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: "ANDERSON SOARES MARTINS",
-  description: "Anderson Soares Martins Portfolio"
-};
+    title: 'ANDERSON SOARES MARTINS',
+    description: 'Anderson Soares Martins Portfolio',
+}
 
 export default function RootLayout({
-  children
+    children,
 }: Readonly<{
-  children: React.ReactNode;
+    children: React.ReactNode
 }>) {
-  return (
-    <html lang="en">
-      <body
-        className={`${inter.className} antialiased flex flex-col min-h-screen`}
-      >
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <Header />
-          {children}
-          <Footer />
-        </ThemeProvider>
-      </body>
-    </html>
-  );
+    return (
+        <html lang="en">
+            <body
+                className={`${inter.className} antialiased flex flex-col min-h-screen`}
+            >
+                <ThemeProvider
+                    attribute="class"
+                    defaultTheme="system"
+                    enableSystem
+                >
+                    <Header />
+                    {children}
+                    <Footer />
+                </ThemeProvider>
+            </body>
+            <GoogleTagManager gtmId="GTM-T6349HWT" />
+        </html>
+    )
 }
