@@ -1,0 +1,39 @@
+name: Discord - PR
+
+on:
+  pull_request:
+    types: [opened, reopened, ready_for_review, review_requested]
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send message to Discord
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          REPO: ${{ github.repository }}
+          PR_TITLE: ${{ github.event.pull_request.title }}
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          PR_AUTHOR: ${{ github.event.pull_request.user.login }}
+          PR_BASE: ${{ github.event.pull_request.base.ref }}
+          PR_HEAD: ${{ github.event.pull_request.head.ref }}
+          # Lista de reviewers (users) em JSON:
+          REVIEWERS_JSON: ${{ toJson(github.event.pull_request.requested_reviewers) }}
+        run: |
+          reviewers=$(echo "$REVIEWERS_JSON" | jq -r '.[].login' | paste -sd ", " -)
+          if [ -z "$reviewers" ]; then
+            reviewers="(nenhum por enquanto)"
+          else
+            reviewers="🧑‍⚖️ Reviewers: $reviewers"
+          fi
+
+          content="🧩 **Pull Request** em **$REPO**
+                  👤 Autor: $PR_AUTHOR
+                  📝 $PR_TITLE
+                  🔀 $PR_HEAD → $PR_BASE
+                  $reviewers
+                  🔗 $PR_URL"
+
+          payload=$(jq -n --arg content "$content" '{content: $content}')
+                    curl -H "Content-Type: application/json" -d "$payload" "$DISCORD_WEBHOOK_URL"
+                    
