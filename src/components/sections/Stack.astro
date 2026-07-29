@@ -1,5 +1,4 @@
 ---
-import GhostNumeral from "../GhostNumeral.astro";
 import SectionHeading from "../SectionHeading.astro";
 import { stack } from "../../content/stack";
 
@@ -26,11 +25,9 @@ const edges: Array<[number, number]> = [
 ];
 ---
 
-<section id="stack" class="relative scroll-mt-20 overflow-hidden py-24 sm:py-32">
-  <GhostNumeral value="02" class="pointer-events-none absolute -top-6 right-0 hidden text-[10rem] sm:block lg:text-[13rem]" />
-
-  <div class="container-page relative">
-    <SectionHeading eyebrow={t.eyebrow} heading={t.heading} sub={t.sub} />
+<section id="stack" class="scroll-mt-20 py-24 sm:py-32">
+  <div class="container-page">
+    <SectionHeading index="02" eyebrow={t.eyebrow} heading={t.heading} sub={t.sub} />
 
     <div
       class="graph-shell reveal relative mt-14 hidden h-[22rem] rounded-2xl border border-line/60 bg-surface/40 sm:block sm:h-[26rem]"

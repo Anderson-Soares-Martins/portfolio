@@ -1,15 +1,33 @@
 ---
 interface Props {
+  index: string;
   eyebrow: string;
   heading: string;
   sub?: string;
 }
 
-const { eyebrow, heading, sub } = Astro.props;
+const { index, eyebrow, heading, sub } = Astro.props;
 ---
 
-<div class="max-w-2xl">
-  <p class="reveal section-label">{eyebrow}</p>
-  <h2 class="reveal mt-4 text-3xl sm:text-4xl lg:text-[2.75rem]">{heading}</h2>
-  {sub && <p class="reveal mt-4 text-base leading-relaxed text-ink-dim sm:text-lg">{sub}</p>}
-</div>
+<header>
+  <div class="reveal flex items-center gap-5">
+    <span class="head-numeral" aria-hidden="true">{index}</span>
+    <span class="h-px flex-1 bg-line/70" aria-hidden="true"></span>
+    <span class="font-mono text-xs lowercase tracking-[0.14em] text-amber">{eyebrow}</span>
+  </div>
+  <h2 class="reveal mt-8 max-w-2xl text-3xl sm:text-4xl lg:text-[2.75rem]">{heading}</h2>
+  {sub && <p class="reveal mt-4 max-w-2xl text-base leading-relaxed text-ink-dim sm:text-lg">{sub}</p>}
+</header>
+
+<style>
+  .head-numeral {
+    font-family: var(--font-display);
+    font-variation-settings: "SOFT" 0, "WONK" 1, "opsz" 144;
+    font-weight: 500;
+    font-size: clamp(2.5rem, 5vw, 3.75rem);
+    line-height: 1;
+    color: transparent;
+    -webkit-text-stroke: 1px color-mix(in oklch, var(--color-ink) 45%, transparent);
+    user-select: none;
+  }
+</style>

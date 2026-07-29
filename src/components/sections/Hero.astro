@@ -1,5 +1,4 @@
 ---
-import GhostNumeral from "../GhostNumeral.astro";
 import { hero } from "../../content/hero";
 
 const locale = (Astro.currentLocale ?? "pt") as "pt" | "en";
@@ -9,42 +8,37 @@ const t = hero[locale];
 <section id="hero" class="relative flex min-h-[92vh] items-center overflow-hidden pt-16 sm:pt-20">
   <div class="hero-grid pointer-events-none absolute inset-0 -z-10" aria-hidden="true"></div>
 
-  <GhostNumeral
-    value="00"
-    class="pointer-events-none absolute right-[2%] top-1/2 hidden -translate-y-1/2 text-[16rem] lg:block xl:text-[20rem]"
-  />
+  <div class="container-page grid items-center gap-14 py-20 lg:grid-cols-[1.15fr_0.85fr]">
+    <div>
+      <p class="reveal section-label">{t.eyebrow}</p>
 
-  <div class="container-page py-20">
-    <p class="reveal section-label">{t.eyebrow}</p>
+      <a
+        href="#experience"
+        class="reveal mt-4 inline-flex w-fit items-center gap-2 border border-line px-4 py-1.5 font-mono text-xs text-ink-dim transition-colors duration-200 hover:border-amber hover:text-amber"
+      >
+        <span class="h-1.5 w-1.5 shrink-0 animate-pulse rounded-full bg-amber"></span>
+        {t.currentRole}
+      </a>
 
-    <a
-      href="#experience"
-      class="reveal mt-4 inline-flex w-fit items-center gap-2 rounded-full border border-line px-4 py-1.5 font-mono text-xs text-ink-dim transition-colors duration-200 hover:border-amber hover:text-amber"
-    >
-      <span class="h-1.5 w-1.5 shrink-0 animate-pulse rounded-full bg-amber"></span>
-      {t.currentRole}
-    </a>
+      <h1 class="reveal mt-6 max-w-3xl text-[2.75rem] leading-[1.05] sm:text-6xl xl:text-[4.5rem]">
+        {t.headline.pre}<em class="headline-accent">{t.headline.accent}</em>{t.headline.post}
+      </h1>
 
-    <h1 class="reveal mt-6 max-w-3xl text-[2.75rem] leading-[1.05] sm:text-6xl lg:text-[5rem]">
-      {t.headline}
-    </h1>
+      <p class="reveal mt-6 max-w-xl text-base leading-relaxed text-ink-dim sm:text-lg">
+        {t.subheadline}
+      </p>
 
-    <p class="reveal mt-6 max-w-xl text-base leading-relaxed text-ink-dim sm:text-lg">
-      {t.subheadline}
-    </p>
-
-    <div class="reveal mt-9 flex flex-wrap items-center gap-4">
-      <a href="#projects" class="btn btn-primary">{t.ctaPrimary}</a>
-      <a href="#contact" class="btn btn-ghost">{t.ctaSecondary}</a>
+      <div class="reveal mt-9 flex flex-wrap items-center gap-4">
+        <a href="#projects" class="btn btn-primary">{t.ctaPrimary}</a>
+        <a href="#contact" class="btn btn-ghost">{t.ctaSecondary}</a>
+      </div>
     </div>
 
-    <div class="reveal mt-14 max-w-xl" data-terminal data-terminal-config={JSON.stringify(t.terminal)}>
+    <div class="reveal" data-terminal data-terminal-config={JSON.stringify(t.terminal)}>
       <div class="terminal-frame overflow-hidden rounded-xl border border-line bg-surface/70 backdrop-blur-sm">
-        <div class="flex items-center gap-1.5 border-b border-line/70 px-4 py-2.5">
-          <span class="h-2.5 w-2.5 rounded-full bg-ink-dim/25"></span>
-          <span class="h-2.5 w-2.5 rounded-full bg-ink-dim/25"></span>
-          <span class="h-2.5 w-2.5 rounded-full bg-ink-dim/25"></span>
-          <span class="ml-2 font-mono text-[0.65rem] text-ink-dim">{t.terminal.prompt}</span>
+        <div class="flex items-center justify-between border-b border-line/70 px-4 py-2.5">
+          <span class="font-mono text-[0.65rem] text-ink-dim">{t.terminal.prompt}</span>
+          <span class="h-1.5 w-1.5 animate-pulse rounded-full bg-amber" aria-hidden="true"></span>
         </div>
         <div
           class="terminal-output space-y-1 overflow-y-auto px-4 pt-3 font-mono text-[0.75rem] leading-relaxed sm:text-xs"
@@ -65,6 +59,7 @@ const t = hero[locale];
           />
         </div>
       </div>
+      <p class="mt-3 text-right font-mono text-[0.65rem] text-ink-dim/60">{t.terminal.caption}</p>
     </div>
   </div>
 </section>
@@ -77,8 +72,15 @@ const t = hero[locale];
     opacity: 0.6;
   }
 
+  .headline-accent {
+    font-style: italic;
+    font-variation-settings: "SOFT" 60, "WONK" 1, "opsz" 90;
+    color: var(--color-amber);
+  }
+
   .terminal-output {
-    max-height: 8.5rem;
+    min-height: 9.5rem;
+    max-height: 13rem;
   }
   .terminal-output :global(p) {
     white-space: pre-wrap;

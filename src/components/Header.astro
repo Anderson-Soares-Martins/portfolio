@@ -18,12 +18,13 @@ const switchHref = getRelativeLocaleUrl(otherLocale, "/");
 
     <nav class="hidden items-center gap-8 md:flex">
       {
-        t.map((item) => (
+        t.map((item, i) => (
           <a
             href={item.href}
             data-nav-link
             class="link-underline font-mono text-[0.8rem] uppercase tracking-wider text-ink-dim transition-colors duration-200 hover:text-ink data-active:text-amber"
           >
+            <sup class="mr-0.5 text-[0.6rem] text-amber/70">0{i + 1}</sup>
             {item.label}
           </a>
         ))
@@ -74,11 +75,12 @@ const switchHref = getRelativeLocaleUrl(otherLocale, "/");
   >
     <nav class="container-page flex flex-col gap-1 py-6">
       {
-        t.map((item) => (
+        t.map((item, i) => (
           <a
             href={item.href}
             class="rounded-lg px-3 py-3 font-mono text-sm uppercase tracking-wider text-ink-dim transition-colors duration-200 hover:bg-surface hover:text-amber"
           >
+            <sup class="mr-1 text-[0.65rem] text-amber/70">0{i + 1}</sup>
             {item.label}
           </a>
         ))

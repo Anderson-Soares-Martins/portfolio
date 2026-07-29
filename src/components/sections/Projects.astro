@@ -1,6 +1,5 @@
 ---
 import { Image } from "astro:assets";
-import GhostNumeral from "../GhostNumeral.astro";
 import SectionHeading from "../SectionHeading.astro";
 import { projects, projectsMeta } from "../../content/projects";
 
@@ -8,11 +7,9 @@ const locale = (Astro.currentLocale ?? "pt") as "pt" | "en";
 const t = projects[locale];
 ---
 
-<section id="projects" class="relative scroll-mt-20 overflow-hidden py-24 sm:py-32">
-  <GhostNumeral value="03" class="pointer-events-none absolute -top-6 right-0 hidden text-[10rem] sm:block lg:text-[13rem]" />
-
-  <div class="container-page relative">
-    <SectionHeading eyebrow={t.eyebrow} heading={t.heading} sub={t.sub} />
+<section id="projects" class="scroll-mt-20 py-24 sm:py-32">
+  <div class="container-page">
+    <SectionHeading index="03" eyebrow={t.eyebrow} heading={t.heading} sub={t.sub} />
 
     <div class="mt-14 flex flex-col gap-8">
       {
@@ -33,15 +30,21 @@ const t = projects[locale];
                   alt={copy.title}
                   width={800}
                   height={600}
-                  class="h-full w-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-105"
+                  class="img-duotone h-full w-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-105"
                 />
                 <span
                   class:list={[
-                    "absolute left-4 top-4 rounded-full border border-line bg-canvas/80 px-3 py-1 font-mono text-[0.7rem] backdrop-blur-sm",
+                    "absolute left-4 top-4 border border-line bg-canvas/80 px-2.5 py-1 font-mono text-[0.7rem] backdrop-blur-sm",
                     meta.demoUrl ? "text-teal" : "text-ink-dim"
                   ]}
                 >
                   {meta.demoUrl ? t.liveBadge : t.caseStudyBadge}
+                </span>
+                <span
+                  class="absolute bottom-4 left-4 font-mono text-[0.65rem] text-ink-dim/80"
+                  aria-hidden="true"
+                >
+                  fig. 0{i + 1}
                 </span>
               </div>
 

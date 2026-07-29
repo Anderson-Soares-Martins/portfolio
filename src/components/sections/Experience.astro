@@ -1,42 +1,38 @@
 ---
-import GhostNumeral from "../GhostNumeral.astro";
 import SectionHeading from "../SectionHeading.astro";
 import { experience } from "../../content/experience";
 
 const locale = (Astro.currentLocale ?? "pt") as "pt" | "en";
 const t = experience[locale];
+
+const items = [...t.items].reverse();
 ---
 
-<section id="experience" class="relative scroll-mt-20 overflow-hidden py-24 sm:py-32">
-  <GhostNumeral value="04" class="pointer-events-none absolute -top-6 right-0 hidden text-[10rem] sm:block lg:text-[13rem]" />
+<section id="experience" class="scroll-mt-20 py-24 sm:py-32">
+  <div class="container-page">
+    <SectionHeading index="04" eyebrow={t.eyebrow} heading={t.heading} />
 
-  <div class="container-page relative">
-    <SectionHeading eyebrow={t.eyebrow} heading={t.heading} />
-
-    <ol class="mt-14 space-y-12 border-l border-line/70 pl-8 sm:pl-10">
+    <ol class="mt-14 border-t border-line/60">
       {
-        t.items.map((item) => (
-          <li class="reveal relative">
-            <span
-              class:list={[
-                "absolute -left-[calc(2rem+5px)] top-1.5 h-2.5 w-2.5 rounded-full sm:-left-[calc(2.5rem+5px)]",
-                item.now ? "bg-amber shadow-glow" : "bg-line"
-              ]}
-            />
-            <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+        items.map((item) => (
+          <li class="reveal grid gap-x-10 gap-y-2 border-b border-line/60 py-8 sm:grid-cols-[10rem_1fr]">
+            <div class="flex items-start gap-2.5 font-mono text-xs">
+              {item.now && <span class="mt-1 h-1.5 w-1.5 shrink-0 animate-pulse rounded-full bg-amber" />}
+              <span class:list={[item.now ? "text-amber" : "text-ink-dim"]}>{item.period}</span>
+            </div>
+            <div>
               <h3 class="text-xl">
                 {item.role} <span class="text-ink-dim">· {item.org}</span>
               </h3>
-              <span class="font-mono text-xs text-ink-dim">{item.period}</span>
+              <ul class="mt-4 space-y-2">
+                {item.bullets.map((bullet) => (
+                  <li class="flex gap-3 text-sm leading-relaxed text-ink-dim">
+                    <span class="mt-2.5 h-px w-3 shrink-0 bg-ink-dim/50" />
+                    {bullet}
+                  </li>
+                ))}
+              </ul>
             </div>
-            <ul class="mt-4 space-y-2">
-              {item.bullets.map((bullet) => (
-                <li class="flex gap-3 text-sm leading-relaxed text-ink-dim">
-                  <span class="mt-2 h-1 w-1 shrink-0 rounded-full bg-ink-dim" />
-                  {bullet}
-                </li>
-              ))}
-            </ul>
           </li>
         ))
       }

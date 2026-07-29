@@ -1,0 +1,40 @@
+---
+// Fixed right-edge section index (00-05). Reuses the scrollspy in
+// interactions.ts via data-nav-link, so active state comes for free.
+const items = [
+  { id: "hero", n: "00" },
+  { id: "about", n: "01" },
+  { id: "stack", n: "02" },
+  { id: "projects", n: "03" },
+  { id: "experience", n: "04" },
+  { id: "contact", n: "05" }
+];
+---
+
+<nav class="rail fixed right-5 top-1/2 z-40 hidden -translate-y-1/2 flex-col items-end gap-3 xl:flex" aria-label="Índice">
+  {
+    items.map((item) => (
+      <a href={`#${item.id}`} data-nav-link class="rail-link font-mono text-[0.65rem]">
+        {item.n}
+      </a>
+    ))
+  }
+</nav>
+
+<style>
+  .rail-link {
+    color: color-mix(in oklch, var(--color-ink-dim) 55%, transparent);
+    letter-spacing: 0.08em;
+    transition: color 0.25s ease, transform 0.25s ease;
+  }
+  .rail-link:hover {
+    color: var(--color-ink);
+  }
+  .rail-link[data-active] {
+    color: var(--color-amber);
+    transform: translateX(-0.35rem);
+  }
+  .rail-link[data-active]::after {
+    content: " ·";
+  }
+</style>
