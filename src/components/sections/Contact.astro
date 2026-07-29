@@ -1,4 +1,5 @@
 ---
+import GhostNumeral from "../GhostNumeral.astro";
 import SectionHeading from "../SectionHeading.astro";
 import { contact } from "../../content/contact";
 import { site } from "../../content/site";
@@ -8,8 +9,10 @@ const t = contact[locale];
 const whatsappHref = `https://wa.me/${site.phone.replace(/\D/g, "")}`;
 ---
 
-<section id="contact" class="scroll-mt-20 py-24 sm:py-32">
-  <div class="container-page grid gap-14 lg:grid-cols-[1.1fr_1fr]">
+<section id="contact" class="relative scroll-mt-20 overflow-hidden py-24 sm:py-32">
+  <GhostNumeral value="05" class="pointer-events-none absolute -top-6 right-0 hidden text-[10rem] sm:block lg:text-[13rem]" />
+
+  <div class="container-page relative grid gap-14 lg:grid-cols-[1.1fr_1fr]">
     <div>
       <SectionHeading eyebrow={t.eyebrow} heading={t.heading} sub={t.sub} />
 

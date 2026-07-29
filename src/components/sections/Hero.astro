@@ -1,4 +1,5 @@
 ---
+import GhostNumeral from "../GhostNumeral.astro";
 import { hero } from "../../content/hero";
 
 const locale = (Astro.currentLocale ?? "pt") as "pt" | "en";
@@ -8,9 +9,10 @@ const t = hero[locale];
 <section id="hero" class="relative flex min-h-[92vh] items-center overflow-hidden pt-16 sm:pt-20">
   <div class="hero-grid pointer-events-none absolute inset-0 -z-10" aria-hidden="true"></div>
 
-  <div class="chip-stage pointer-events-auto absolute right-[3%] top-1/2 hidden h-[24rem] w-[24rem] -translate-y-1/2 lg:block xl:h-[28rem] xl:w-[28rem]">
-    <canvas data-webgl-canvas class="h-full w-full"></canvas>
-  </div>
+  <GhostNumeral
+    value="00"
+    class="pointer-events-none absolute right-[2%] top-1/2 hidden -translate-y-1/2 text-[16rem] lg:block xl:text-[20rem]"
+  />
 
   <div class="container-page py-20">
     <p class="reveal section-label">{t.eyebrow}</p>
@@ -67,35 +69,12 @@ const t = hero[locale];
   </div>
 </section>
 
-<script>
-  const canvas = document.querySelector("[data-webgl-canvas]");
-  const stage = canvas?.closest(".chip-stage");
-
-  function bootChip() {
-    if (!(canvas instanceof HTMLCanvasElement) || !stage) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    if (window.innerWidth < 1024) return;
-    if (canvas.dataset.sceneBooted === "true") return;
-    canvas.dataset.sceneBooted = "true";
-
-    import("../../scripts/scene.ts")
-      .then((mod) => mod.initScene(canvas))
-      .catch(() => {});
-  }
-
-  bootChip();
-</script>
-
 <style>
   .hero-grid {
     background-image: radial-gradient(circle, var(--color-line) 1px, transparent 1px);
     background-size: 28px 28px;
     mask-image: radial-gradient(ellipse 70% 60% at 50% 30%, black, transparent 75%);
     opacity: 0.6;
-  }
-
-  .chip-stage {
-    filter: drop-shadow(0 20px 60px oklch(0.16 0.015 55 / 0.5));
   }
 
   .terminal-output {

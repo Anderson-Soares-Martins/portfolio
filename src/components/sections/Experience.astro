@@ -1,4 +1,5 @@
 ---
+import GhostNumeral from "../GhostNumeral.astro";
 import SectionHeading from "../SectionHeading.astro";
 import { experience } from "../../content/experience";
 
@@ -6,8 +7,10 @@ const locale = (Astro.currentLocale ?? "pt") as "pt" | "en";
 const t = experience[locale];
 ---
 
-<section id="experience" class="scroll-mt-20 py-24 sm:py-32">
-  <div class="container-page">
+<section id="experience" class="relative scroll-mt-20 overflow-hidden py-24 sm:py-32">
+  <GhostNumeral value="04" class="pointer-events-none absolute -top-6 right-0 hidden text-[10rem] sm:block lg:text-[13rem]" />
+
+  <div class="container-page relative">
     <SectionHeading eyebrow={t.eyebrow} heading={t.heading} />
 
     <ol class="mt-14 space-y-12 border-l border-line/70 pl-8 sm:pl-10">

@@ -172,6 +172,29 @@
     }
   }
 
+  /* Bracket tag: a code token, not a SaaS pill badge. */
+  .tag {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--color-ink-dim);
+    white-space: nowrap;
+    transition: color 0.2s ease;
+  }
+  .tag::before {
+    content: "[";
+    color: var(--color-line);
+    margin-right: 0.05em;
+  }
+  .tag::after {
+    content: "]";
+    color: var(--color-line);
+    margin-left: 0.05em;
+  }
+  .group:hover .tag,
+  .tag:hover {
+    color: var(--color-ink);
+  }
+
   .link-underline {
     position: relative;
     text-decoration: none;

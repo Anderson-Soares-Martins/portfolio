@@ -1,5 +1,6 @@
 ---
 import { Image } from "astro:assets";
+import GhostNumeral from "../GhostNumeral.astro";
 import SectionHeading from "../SectionHeading.astro";
 import { about } from "../../content/about";
 import profilePhoto from "../../assets/photo-perfil.png";
@@ -8,7 +9,9 @@ const locale = (Astro.currentLocale ?? "pt") as "pt" | "en";
 const t = about[locale];
 ---
 
-<section id="about" class="scroll-mt-20 py-24 sm:py-32">
+<section id="about" class="relative scroll-mt-20 overflow-hidden py-24 sm:py-32">
+  <GhostNumeral value="01" class="pointer-events-none absolute -top-8 left-[42%] -z-10 hidden text-[10rem] sm:block lg:text-[13rem]" />
+
   <div class="container-page grid gap-16 lg:grid-cols-[1.3fr_1fr] lg:items-start">
     <div>
       <SectionHeading eyebrow={t.eyebrow} heading={t.heading} />
