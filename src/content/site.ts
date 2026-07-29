@@ -3,7 +3,7 @@ export const site = {
   email: "andersonsoaresmartins@gmail.com",
   phone: "+55 48 99608-4908",
   phoneDisplay: "(48) 99608-4908",
-  location: "Palhoça, SC — Brasil",
+  location: "Palhoça, SC, Brasil",
   linkedin: "https://www.linkedin.com/in/anderson-soares-martins-a3b5b21aa",
   github: "https://github.com/Anderson-Soares-Martins",
   resumePt: "/Anderson-Soares-Martins-Curriculo.pdf",
@@ -13,14 +13,14 @@ export const site = {
 
 export const meta = {
   pt: {
-    title: "Anderson Soares Martins — Full Stack Developer & Product Builder",
+    title: "Anderson Soares Martins | Full Stack Developer & Product Builder",
     description:
-      "Desenvolvedor full stack com visão de produto. Construo apps, dashboards e integrações de ponta a ponta — com IA como parte real do meu processo de engenharia."
+      "Desenvolvedor full stack com visão de produto. Construo apps, dashboards e integrações de ponta a ponta, com IA como parte real do meu processo de engenharia."
   },
   en: {
-    title: "Anderson Soares Martins — Full Stack Developer & Product Builder",
+    title: "Anderson Soares Martins | Full Stack Developer & Product Builder",
     description:
-      "Full stack developer with a product mindset. I build apps, dashboards and integrations end-to-end — with AI as a real part of my engineering process."
+      "Full stack developer with a product mindset. I build apps, dashboards and integrations end-to-end, with AI as a real part of my engineering process."
   }
 } as const;
 

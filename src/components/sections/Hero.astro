@@ -5,11 +5,11 @@ const locale = (Astro.currentLocale ?? "pt") as "pt" | "en";
 const t = hero[locale];
 ---
 
-<section class="relative flex min-h-[92vh] items-center overflow-hidden pt-16 sm:pt-20">
-  <div class="pointer-events-none absolute inset-0 -z-10" aria-hidden="true">
-    <div class="hero-grid absolute inset-0"></div>
-    <div class="hero-blob hero-blob--amber animate-drift"></div>
-    <div class="hero-blob hero-blob--teal animate-drift-slow"></div>
+<section id="hero" class="relative flex min-h-[92vh] items-center overflow-hidden pt-16 sm:pt-20">
+  <div class="hero-grid pointer-events-none absolute inset-0 -z-10" aria-hidden="true"></div>
+
+  <div class="chip-stage pointer-events-auto absolute right-[3%] top-1/2 hidden h-[24rem] w-[24rem] -translate-y-1/2 lg:block xl:h-[28rem] xl:w-[28rem]">
+    <canvas data-webgl-canvas class="h-full w-full"></canvas>
   </div>
 
   <div class="container-page py-20">
@@ -36,12 +36,55 @@ const t = hero[locale];
       <a href="#contact" class="btn btn-ghost">{t.ctaSecondary}</a>
     </div>
 
-    <div class="reveal mt-16 flex items-center gap-3 font-mono text-xs text-ink-dim sm:text-sm">
-      <span class="text-amber">&gt;</span>
-      <span class="caret" data-typewriter={JSON.stringify(t.terminalLines)}></span>
+    <div class="reveal mt-14 max-w-xl" data-terminal data-terminal-config={JSON.stringify(t.terminal)}>
+      <div class="terminal-frame overflow-hidden rounded-xl border border-line bg-surface/70 backdrop-blur-sm">
+        <div class="flex items-center gap-1.5 border-b border-line/70 px-4 py-2.5">
+          <span class="h-2.5 w-2.5 rounded-full bg-ink-dim/25"></span>
+          <span class="h-2.5 w-2.5 rounded-full bg-ink-dim/25"></span>
+          <span class="h-2.5 w-2.5 rounded-full bg-ink-dim/25"></span>
+          <span class="ml-2 font-mono text-[0.65rem] text-ink-dim">{t.terminal.prompt}</span>
+        </div>
+        <div
+          class="terminal-output space-y-1 overflow-y-auto px-4 pt-3 font-mono text-[0.75rem] leading-relaxed sm:text-xs"
+          data-terminal-output
+          aria-live="polite"
+        >
+        </div>
+        <div class="flex items-center gap-2 px-4 pb-3.5 pt-1.5 font-mono text-[0.75rem] sm:text-xs">
+          <span class="text-amber">&gt;</span>
+          <input
+            type="text"
+            data-terminal-input
+            autocomplete="off"
+            autocapitalize="off"
+            spellcheck="false"
+            placeholder={t.terminal.placeholder}
+            class="w-full bg-transparent text-ink outline-none placeholder:text-ink-dim/50"
+          />
+        </div>
+      </div>
     </div>
   </div>
 </section>
+
+<script>
+  const canvas = document.querySelector("[data-webgl-canvas]");
+  const stage = canvas?.closest(".chip-stage");
+
+  function bootChip() {
+    if (!(canvas instanceof HTMLCanvasElement) || !stage) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (window.innerWidth < 1024) return;
+    if (canvas.dataset.sceneBooted === "true") return;
+    canvas.dataset.sceneBooted = "true";
+
+    import("../../scripts/scene.ts")
+      .then((mod) => mod.initScene(canvas))
+      .catch(() => {});
+  }
+
+  bootChip();
+</script>
 
 <style>
   .hero-grid {
@@ -51,23 +94,15 @@ const t = hero[locale];
     opacity: 0.6;
   }
 
-  .hero-blob {
-    position: absolute;
-    width: 30rem;
-    height: 30rem;
-    border-radius: 9999px;
-    filter: blur(110px);
-    opacity: 0.35;
+  .chip-stage {
+    filter: drop-shadow(0 20px 60px oklch(0.16 0.015 55 / 0.5));
   }
-  .hero-blob--amber {
-    top: -6rem;
-    right: -4rem;
-    background: var(--color-amber);
+
+  .terminal-output {
+    max-height: 8.5rem;
   }
-  .hero-blob--teal {
-    bottom: -10rem;
-    left: -6rem;
-    background: var(--color-teal);
-    opacity: 0.22;
+  .terminal-output :global(p) {
+    white-space: pre-wrap;
+    word-break: break-word;
   }
 </style>

@@ -48,6 +48,87 @@ function initSpotlight() {
   });
 }
 
+// Stack graph: draggable category nodes with SVG edges + synced legend cards.
+function initStackGraph() {
+  const root = document.querySelector<HTMLElement>("[data-stack-graph]");
+  if (!root) return;
+
+  const nodes = Array.from(root.querySelectorAll<HTMLButtonElement>("[data-node]"));
+  const lines = Array.from(root.querySelectorAll<SVGLineElement>("line[data-edge]"));
+  const legendCards = Array.from(document.querySelectorAll<HTMLElement>("[data-legend]"));
+  if (!nodes.length) return;
+
+  const center = (node: HTMLElement) => {
+    const rect = node.getBoundingClientRect();
+    const parentRect = root.getBoundingClientRect();
+    return {
+      x: rect.left + rect.width / 2 - parentRect.left,
+      y: rect.top + rect.height / 2 - parentRect.top
+    };
+  };
+
+  const updateEdges = () => {
+    for (const line of lines) {
+      const [a, b] = (line.dataset.edge ?? "").split("-").map(Number);
+      const nodeA = nodes[a];
+      const nodeB = nodes[b];
+      if (!nodeA || !nodeB) continue;
+      const posA = center(nodeA);
+      const posB = center(nodeB);
+      line.setAttribute("x1", String(posA.x));
+      line.setAttribute("y1", String(posA.y));
+      line.setAttribute("x2", String(posB.x));
+      line.setAttribute("y2", String(posB.y));
+    }
+  };
+
+  const setActive = (index: number | null) => {
+    nodes.forEach((node, i) => node.toggleAttribute("data-active", i === index));
+    legendCards.forEach((card, i) => card.toggleAttribute("data-active", i === index));
+    lines.forEach((line) => {
+      const [a, b] = (line.dataset.edge ?? "").split("-").map(Number);
+      line.toggleAttribute("data-active", index !== null && (a === index || b === index));
+    });
+  };
+
+  nodes.forEach((node, index) => {
+    let dragging = false;
+
+    node.addEventListener("pointerenter", () => setActive(index));
+    node.addEventListener("focus", () => setActive(index));
+    node.addEventListener("pointerleave", () => {
+      if (!dragging) setActive(null);
+    });
+    node.addEventListener("blur", () => setActive(null));
+
+    node.addEventListener("pointerdown", (event) => {
+      dragging = true;
+      node.setPointerCapture(event.pointerId);
+    });
+
+    node.addEventListener("pointermove", (event) => {
+      if (!dragging) return;
+      const parentRect = root.getBoundingClientRect();
+      const x = Math.min(96, Math.max(4, ((event.clientX - parentRect.left) / parentRect.width) * 100));
+      const y = Math.min(94, Math.max(6, ((event.clientY - parentRect.top) / parentRect.height) * 100));
+      node.style.left = `${x}%`;
+      node.style.top = `${y}%`;
+      updateEdges();
+    });
+
+    const release = (event: PointerEvent) => {
+      if (!dragging) return;
+      dragging = false;
+      node.releasePointerCapture(event.pointerId);
+    };
+    node.addEventListener("pointerup", release);
+    node.addEventListener("pointercancel", release);
+  });
+
+  requestAnimationFrame(updateEdges);
+  new ResizeObserver(updateEdges).observe(root);
+}
+
 // Mobile menu open/close + close-on-link-click.
 function initMobileMenu() {
   const toggle = document.querySelector<HTMLButtonElement>("[data-menu-toggle]");
@@ -112,53 +193,167 @@ function initScrollSpy() {
   sections.forEach((section) => observer.observe(section));
 }
 
-// Hero terminal line: type, pause, delete, move to the next line.
-function initTypewriter() {
-  const el = document.querySelector<HTMLElement>("[data-typewriter]");
-  if (!el) return;
+// Ambient background field: nudge the blurred blobs with pointer + scroll.
+function initAmbientField() {
+  const field = document.querySelector<HTMLElement>("[data-ambient-field]");
+  if (!field) return;
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
-  let lines: string[] = [];
+  let raf = 0;
+  let targetX = 0;
+  let targetY = 0;
+
+  const apply = () => {
+    field.style.setProperty("--ax", targetX.toFixed(1));
+    field.style.setProperty("--ay", targetY.toFixed(1));
+    raf = 0;
+  };
+
+  const schedule = () => {
+    if (raf) return;
+    raf = requestAnimationFrame(apply);
+  };
+
+  window.addEventListener(
+    "pointermove",
+    (event) => {
+      targetX = (event.clientX / window.innerWidth - 0.5) * 70;
+      targetY = (event.clientY / window.innerHeight - 0.5) * 70;
+      schedule();
+    },
+    { passive: true }
+  );
+
+  window.addEventListener(
+    "scroll",
+    () => {
+      targetY += Math.min(window.scrollY * 0.01, 40);
+      schedule();
+    },
+    { passive: true }
+  );
+}
+
+// Hero terminal: a tiny real REPL — whoami, stack, projects <slug>, etc.
+interface TerminalConfig {
+  prompt: string;
+  placeholder: string;
+  intro: string;
+  notFound: string;
+  projectNotFound: string;
+  commands: {
+    help: string[];
+    whoami: string[];
+    stack: string[];
+    projects: string[];
+    experience: string[];
+    contact: string[];
+  };
+}
+
+const PROJECT_SLUGS = ["pague-safe", "convert-text", "handyman"];
+
+function initTerminal() {
+  const root = document.querySelector<HTMLElement>("[data-terminal]");
+  const input = root?.querySelector<HTMLInputElement>("[data-terminal-input]");
+  const output = root?.querySelector<HTMLElement>("[data-terminal-output]");
+  if (!root || !input || !output) return;
+
+  let config: TerminalConfig;
   try {
-    lines = JSON.parse(el.dataset.typewriter ?? "[]");
+    config = JSON.parse(root.dataset.terminalConfig ?? "null");
   } catch {
     return;
   }
-  if (!lines.length) return;
+  if (!config) return;
 
-  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-    el.textContent = lines[0];
-    return;
-  }
+  const printLines = (lines: string[], tone: "in" | "out" = "out") => {
+    for (const line of lines) {
+      const p = document.createElement("p");
+      p.textContent = line;
+      p.className = tone === "in" ? "text-ink" : "text-ink-dim";
+      output.appendChild(p);
+    }
+    output.scrollTop = output.scrollHeight;
+  };
 
-  let lineIndex = 0;
-  let charIndex = 0;
-  let deleting = false;
+  const printEcho = (cmd: string) => {
+    const p = document.createElement("p");
+    p.className = "text-ink";
+    const prompt = document.createElement("span");
+    prompt.className = "text-amber";
+    prompt.textContent = "> ";
+    p.append(prompt, document.createTextNode(cmd));
+    output.appendChild(p);
+  };
 
-  const tick = () => {
-    const current = lines[lineIndex];
-    if (!deleting) {
-      charIndex++;
-      el.textContent = current.slice(0, charIndex);
-      if (charIndex === current.length) {
-        deleting = true;
-        setTimeout(tick, 1500);
-        return;
-      }
-      setTimeout(tick, 38);
-    } else {
-      charIndex--;
-      el.textContent = current.slice(0, charIndex);
-      if (charIndex === 0) {
-        deleting = false;
-        lineIndex = (lineIndex + 1) % lines.length;
-        setTimeout(tick, 300);
-        return;
-      }
-      setTimeout(tick, 22);
+  const scrollToSection = (id: string) => {
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
+  const flashProject = (slug: string) => {
+    const card = document.querySelector<HTMLElement>(`[data-project="${slug}"]`);
+    if (!card) return false;
+    scrollToSection("projects");
+    card.classList.add("project-flash");
+    window.setTimeout(() => card.classList.remove("project-flash"), 1600);
+    return true;
+  };
+
+  const run = (raw: string) => {
+    const trimmed = raw.trim();
+    if (!trimmed) return;
+    printEcho(trimmed);
+
+    const [cmd, ...rest] = trimmed.toLowerCase().split(/\s+/);
+    const arg = rest.join(" ");
+
+    switch (cmd) {
+      case "help":
+        printLines(config.commands.help);
+        break;
+      case "whoami":
+        printLines(config.commands.whoami);
+        break;
+      case "stack":
+        printLines(config.commands.stack);
+        scrollToSection("stack");
+        break;
+      case "experience":
+        printLines(config.commands.experience);
+        scrollToSection("experience");
+        break;
+      case "contact":
+        printLines(config.commands.contact);
+        scrollToSection("contact");
+        break;
+      case "projects":
+        if (arg && PROJECT_SLUGS.includes(arg)) {
+          flashProject(arg);
+        } else if (arg) {
+          printLines([config.projectNotFound]);
+        } else {
+          printLines(config.commands.projects);
+        }
+        break;
+      case "clear":
+        output.innerHTML = "";
+        break;
+      default:
+        printLines([config.notFound]);
     }
   };
 
-  tick();
+  printLines([config.intro]);
+
+  input.addEventListener("keydown", (event) => {
+    if (event.key !== "Enter") return;
+    const value = input.value;
+    input.value = "";
+    run(value);
+  });
+
+  root.addEventListener("click", () => input.focus());
 }
 
 // Contact form: submit via fetch, no page reload, with loading/success/error states.
@@ -212,7 +407,9 @@ function initAll() {
   initMobileMenu();
   initThemeToggle();
   initScrollSpy();
-  initTypewriter();
+  initAmbientField();
+  initStackGraph();
+  initTerminal();
   initContactForm();
 }
 

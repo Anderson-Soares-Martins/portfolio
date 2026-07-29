@@ -264,6 +264,19 @@
     background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
   }
 
+  .project-flash {
+    animation: project-flash 1.6s ease-out;
+  }
+  @keyframes project-flash {
+    0%,
+    100% {
+      box-shadow: none;
+    }
+    15% {
+      box-shadow: 0 0 0 2px var(--color-amber), var(--shadow-glow);
+    }
+  }
+
   .caret::after {
     content: "";
     display: inline-block;

@@ -17,7 +17,10 @@ const t = projects[locale];
           const copy = t.items[meta.id];
           const reversed = i % 2 === 1;
           return (
-            <article class="spotlight reveal group grid overflow-hidden md:grid-cols-2">
+            <article
+              class="spotlight reveal group grid overflow-hidden md:grid-cols-2"
+              data-project={meta.id}
+            >
               <div
                 class="relative aspect-[16/10] overflow-hidden md:aspect-auto"
                 style={reversed ? "order: 2" : undefined}

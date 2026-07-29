@@ -2,7 +2,7 @@ export const stack = {
   pt: {
     eyebrow: "como eu trabalho",
     heading: "Uma stack pensada para entregar produto inteiro.",
-    sub: "Não é uma lista de tecnologias — é o conjunto que eu uso, de verdade, para tirar um produto do zero e colocar em produção.",
+    sub: "Não é uma lista de tecnologias, é o conjunto que eu uso, de verdade, para tirar um produto do zero e colocar em produção.",
     categories: [
       {
         index: "01",
@@ -31,7 +31,7 @@ export const stack = {
       {
         index: "05",
         title: "Engenharia assistida por IA",
-        description: "Copilotos e agentes como parte real do fluxo — não um atalho.",
+        description: "Copilotos e agentes como parte real do fluxo, não um atalho.",
         items: ["LLMs & copilots", "Agentes de código", "Refatoração e testes assistidos", "Revisão crítica humana"]
       },
       {
@@ -45,7 +45,7 @@ export const stack = {
   en: {
     eyebrow: "how i work",
     heading: "A stack built to ship the whole product.",
-    sub: "Not a list of buzzwords — this is what I actually use to take a product from zero to production.",
+    sub: "Not a list of buzzwords, this is what I actually use to take a product from zero to production.",
     categories: [
       {
         index: "01",
@@ -74,7 +74,7 @@ export const stack = {
       {
         index: "05",
         title: "AI-assisted Engineering",
-        description: "Copilots and agents as a real part of the flow — not a shortcut.",
+        description: "Copilots and agents as a real part of the flow, not a shortcut.",
         items: ["LLMs & copilots", "Coding agents", "Assisted refactors & tests", "Human critical review"]
       },
       {
