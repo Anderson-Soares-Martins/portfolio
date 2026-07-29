@@ -1,0 +1,73 @@
+---
+import { hero } from "../../content/hero";
+
+const locale = (Astro.currentLocale ?? "pt") as "pt" | "en";
+const t = hero[locale];
+---
+
+<section class="relative flex min-h-[92vh] items-center overflow-hidden pt-16 sm:pt-20">
+  <div class="pointer-events-none absolute inset-0 -z-10" aria-hidden="true">
+    <div class="hero-grid absolute inset-0"></div>
+    <div class="hero-blob hero-blob--amber animate-drift"></div>
+    <div class="hero-blob hero-blob--teal animate-drift-slow"></div>
+  </div>
+
+  <div class="container-page py-20">
+    <p class="reveal section-label">{t.eyebrow}</p>
+
+    <a
+      href="#experience"
+      class="reveal mt-4 inline-flex w-fit items-center gap-2 rounded-full border border-line px-4 py-1.5 font-mono text-xs text-ink-dim transition-colors duration-200 hover:border-amber hover:text-amber"
+    >
+      <span class="h-1.5 w-1.5 shrink-0 animate-pulse rounded-full bg-amber"></span>
+      {t.currentRole}
+    </a>
+
+    <h1 class="reveal mt-6 max-w-3xl text-[2.75rem] leading-[1.05] sm:text-6xl lg:text-[5rem]">
+      {t.headline}
+    </h1>
+
+    <p class="reveal mt-6 max-w-xl text-base leading-relaxed text-ink-dim sm:text-lg">
+      {t.subheadline}
+    </p>
+
+    <div class="reveal mt-9 flex flex-wrap items-center gap-4">
+      <a href="#projects" class="btn btn-primary">{t.ctaPrimary}</a>
+      <a href="#contact" class="btn btn-ghost">{t.ctaSecondary}</a>
+    </div>
+
+    <div class="reveal mt-16 flex items-center gap-3 font-mono text-xs text-ink-dim sm:text-sm">
+      <span class="text-amber">&gt;</span>
+      <span class="caret" data-typewriter={JSON.stringify(t.terminalLines)}></span>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero-grid {
+    background-image: radial-gradient(circle, var(--color-line) 1px, transparent 1px);
+    background-size: 28px 28px;
+    mask-image: radial-gradient(ellipse 70% 60% at 50% 30%, black, transparent 75%);
+    opacity: 0.6;
+  }
+
+  .hero-blob {
+    position: absolute;
+    width: 30rem;
+    height: 30rem;
+    border-radius: 9999px;
+    filter: blur(110px);
+    opacity: 0.35;
+  }
+  .hero-blob--amber {
+    top: -6rem;
+    right: -4rem;
+    background: var(--color-amber);
+  }
+  .hero-blob--teal {
+    bottom: -10rem;
+    left: -6rem;
+    background: var(--color-teal);
+    opacity: 0.22;
+  }
+</style>

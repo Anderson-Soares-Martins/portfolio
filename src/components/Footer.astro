@@ -1,0 +1,32 @@
+---
+import { site } from "../content/site";
+import { footer } from "../content/contact";
+
+const locale = (Astro.currentLocale ?? "pt") as "pt" | "en";
+const t = footer[locale];
+const year = new Date().getFullYear();
+---
+
+<footer class="border-t border-line/60">
+  <div class="container-page flex flex-col gap-6 py-10 sm:flex-row sm:items-center sm:justify-between">
+    <div>
+      <p class="font-mono text-sm text-ink">~/anderson</p>
+      <p class="mt-1 max-w-sm text-sm text-ink-dim">{t.tagline}</p>
+    </div>
+
+    <div class="flex items-center gap-4 font-mono text-xs text-ink-dim">
+      <a href={site.github} target="_blank" rel="noopener noreferrer" class="link-underline hover:text-ink">
+        GitHub
+      </a>
+      <a href={site.linkedin} target="_blank" rel="noopener noreferrer" class="link-underline hover:text-ink">
+        LinkedIn
+      </a>
+      <a href={`mailto:${site.email}`} class="link-underline hover:text-ink"> Email </a>
+    </div>
+  </div>
+
+  <div class="container-page flex flex-col gap-2 border-t border-line/60 py-6 font-mono text-[0.7rem] text-ink-dim sm:flex-row sm:items-center sm:justify-between">
+    <p>&copy; {year} {site.name}. {t.rights}</p>
+    <p>{t.credit}</p>
+  </div>
+</footer>

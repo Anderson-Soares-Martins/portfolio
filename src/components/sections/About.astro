@@ -1,0 +1,53 @@
+---
+import { Image } from "astro:assets";
+import SectionHeading from "../SectionHeading.astro";
+import { about } from "../../content/about";
+import profilePhoto from "../../assets/photo-perfil.png";
+
+const locale = (Astro.currentLocale ?? "pt") as "pt" | "en";
+const t = about[locale];
+---
+
+<section id="about" class="scroll-mt-20 py-24 sm:py-32">
+  <div class="container-page grid gap-16 lg:grid-cols-[1.3fr_1fr] lg:items-start">
+    <div>
+      <SectionHeading eyebrow={t.eyebrow} heading={t.heading} />
+
+      <div class="mt-8 space-y-5">
+        {
+          t.paragraphs.map((p, i) => (
+            <p
+              class="reveal max-w-2xl text-base leading-relaxed text-ink-dim sm:text-lg"
+              style={i === 0 ? "color: var(--color-ink)" : undefined}
+            >
+              {p}
+            </p>
+          ))
+        }
+      </div>
+    </div>
+
+    <div class="reveal lg:sticky lg:top-28">
+      <div class="spotlight rounded-2xl p-3">
+        <Image
+          src={profilePhoto}
+          alt="Anderson Soares Martins"
+          width={480}
+          height={600}
+          class="aspect-[4/5] w-full rounded-xl object-cover"
+        />
+      </div>
+
+      <dl class="mt-6 divide-y divide-line/60 border-y border-line/60">
+        {
+          t.facts.map((fact) => (
+            <div class="flex items-center justify-between gap-4 py-3 font-mono text-xs sm:text-sm">
+              <dt class="text-ink-dim">{fact.label}</dt>
+              <dd class="text-right text-ink">{fact.value}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+  </div>
+</section>

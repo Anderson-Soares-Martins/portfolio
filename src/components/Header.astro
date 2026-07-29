@@ -1,0 +1,118 @@
+---
+import { getRelativeLocaleUrl } from "astro:i18n";
+import { nav, misc } from "../content/site";
+
+const locale = (Astro.currentLocale ?? "pt") as "pt" | "en";
+const t = nav[locale];
+const m = misc[locale];
+const otherLocale = locale === "pt" ? "en" : "pt";
+const switchHref = getRelativeLocaleUrl(otherLocale, "/");
+---
+
+<header class="sticky top-0 z-50 border-b border-line/60 bg-canvas/75 backdrop-blur-md">
+  <div class="container-page flex h-16 items-center justify-between sm:h-20">
+    <a href={getRelativeLocaleUrl(locale, "/")} class="group flex items-center gap-1 font-mono text-sm">
+      <span class="text-amber transition-transform duration-300 group-hover:-translate-y-0.5">~/</span>
+      <span class="text-ink">anderson</span>
+    </a>
+
+    <nav class="hidden items-center gap-8 md:flex">
+      {
+        t.map((item) => (
+          <a
+            href={item.href}
+            data-nav-link
+            class="link-underline font-mono text-[0.8rem] uppercase tracking-wider text-ink-dim transition-colors duration-200 hover:text-ink data-active:text-amber"
+          >
+            {item.label}
+          </a>
+        ))
+      }
+    </nav>
+
+    <div class="flex items-center gap-2">
+      <a
+        href={switchHref}
+        class="hidden rounded-md border border-line px-3 py-1.5 font-mono text-xs text-ink-dim transition-colors duration-200 hover:border-amber hover:text-amber sm:inline-flex"
+      >
+        {m.langSwitch}
+      </a>
+
+      <button
+        type="button"
+        data-theme-toggle
+        aria-label={m.themeToggle}
+        class="theme-btn grid h-9 w-9 place-items-center rounded-md border border-line text-ink-dim transition-colors duration-200 hover:border-amber hover:text-amber"
+      >
+        <svg class="icon-sun h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <circle cx="12" cy="12" r="4.2" />
+          <path d="M12 2.5v2.4M12 19.1v2.4M4.9 4.9l1.7 1.7M17.4 17.4l1.7 1.7M2.5 12h2.4M19.1 12h2.4M4.9 19.1l1.7-1.7M17.4 6.6l1.7-1.7" stroke-linecap="round" />
+        </svg>
+        <svg class="icon-moon h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a6.8 6.8 0 0 0 10.5 10.5Z" stroke-linejoin="round" />
+        </svg>
+      </button>
+
+      <button
+        type="button"
+        data-menu-toggle
+        aria-label={m.menuOpen}
+        aria-expanded="false"
+        class="grid h-9 w-9 place-items-center rounded-md border border-line text-ink md:hidden"
+      >
+        <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <path d="M3 6h18M3 12h18M3 18h18" stroke-linecap="round" />
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <div
+    data-menu-panel
+    data-open="false"
+    class="menu-panel fixed inset-x-0 top-16 z-40 border-b border-line bg-canvas/98 backdrop-blur-md md:hidden sm:top-20"
+  >
+    <nav class="container-page flex flex-col gap-1 py-6">
+      {
+        t.map((item) => (
+          <a
+            href={item.href}
+            class="rounded-lg px-3 py-3 font-mono text-sm uppercase tracking-wider text-ink-dim transition-colors duration-200 hover:bg-surface hover:text-amber"
+          >
+            {item.label}
+          </a>
+        ))
+      }
+      <a
+        href={switchHref}
+        class="mt-2 rounded-lg border border-line px-3 py-3 text-center font-mono text-sm text-ink-dim"
+      >
+        {m.langSwitch}
+      </a>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .menu-panel {
+    transform: translateY(-0.5rem);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease;
+  }
+  .menu-panel[data-open="true"] {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .theme-btn .icon-moon {
+    display: none;
+  }
+  :global(html.light) .theme-btn .icon-sun {
+    display: none;
+  }
+  :global(html.light) .theme-btn .icon-moon {
+    display: block;
+  }
+</style>

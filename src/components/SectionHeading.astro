@@ -1,0 +1,15 @@
+---
+interface Props {
+  eyebrow: string;
+  heading: string;
+  sub?: string;
+}
+
+const { eyebrow, heading, sub } = Astro.props;
+---
+
+<div class="max-w-2xl">
+  <p class="reveal section-label">{eyebrow}</p>
+  <h2 class="reveal mt-4 text-3xl sm:text-4xl lg:text-[2.75rem]">{heading}</h2>
+  {sub && <p class="reveal mt-4 text-base leading-relaxed text-ink-dim sm:text-lg">{sub}</p>}
+</div>

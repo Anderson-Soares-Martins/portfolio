@@ -1,36 +1,46 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Portfolio — Anderson Soares Martins
 
-## Getting Started
+Site pessoal construído com [Astro](https://astro.build), TypeScript e Tailwind CSS v4. Sem framework de UI no cliente — apenas ilhas de JavaScript vanilla onde realmente há interatividade (tema, menu, spotlight nos cards, formulário de contato).
 
-First, run the development server:
+## Stack
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- **Astro 7** — componentes `.astro`, roteamento por arquivo, i18n nativo (`pt` padrão, `en` em `/en`)
+- **Tailwind CSS v4** — tema definido em `src/styles/global.css` via `@theme`
+- **TypeScript**
+- **Nodemailer** — envio do formulário de contato via `src/pages/api/contact.ts` (rota renderizada sob demanda, resto do site é estático)
+- **Vercel adapter** (`@astrojs/vercel`)
+
+## Estrutura
+
+```
+src/
+  components/         componentes .astro reutilizáveis (Header, Footer, cards, seções)
+  components/sections/  Hero, About, Stack, Projects, Experience, Contact
+  content/            dicionários de conteúdo pt/en (texto real do site, sem fallback genérico)
+  layouts/            BaseLayout com <head>, fontes e script de tema
+  pages/              index.astro (pt) e en/index.astro (en)
+  scripts/            interações vanilla JS (reveal, spotlight, menu, tema, form)
+  styles/             global.css com os design tokens
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Desenvolvimento
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+pnpm install
+pnpm dev       # http://localhost:4321
+pnpm build     # astro check + astro build
+pnpm preview
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+### Variáveis de ambiente
 
-## Learn More
+O formulário de contato usa Gmail via Nodemailer. Defina localmente em `.env` (não versionado):
 
-To learn more about Next.js, take a look at the following resources:
+```
+EMAIL_USER=...
+EMAIL_PASS=...
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Deploy
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Hospedado na Vercel com o adapter oficial (`@astrojs/vercel`). O site é estático por padrão; apenas `src/pages/api/contact.ts` roda como função serverless (`export const prerender = false`).

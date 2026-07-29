@@ -1,0 +1,84 @@
+---
+import { Image } from "astro:assets";
+import SectionHeading from "../SectionHeading.astro";
+import { projects, projectsMeta } from "../../content/projects";
+
+const locale = (Astro.currentLocale ?? "pt") as "pt" | "en";
+const t = projects[locale];
+---
+
+<section id="projects" class="scroll-mt-20 py-24 sm:py-32">
+  <div class="container-page">
+    <SectionHeading eyebrow={t.eyebrow} heading={t.heading} sub={t.sub} />
+
+    <div class="mt-14 flex flex-col gap-8">
+      {
+        projectsMeta.map((meta, i) => {
+          const copy = t.items[meta.id];
+          const reversed = i % 2 === 1;
+          return (
+            <article class="spotlight reveal group grid overflow-hidden md:grid-cols-2">
+              <div
+                class="relative aspect-[16/10] overflow-hidden md:aspect-auto"
+                style={reversed ? "order: 2" : undefined}
+              >
+                <Image
+                  src={meta.image}
+                  alt={copy.title}
+                  width={800}
+                  height={600}
+                  class="h-full w-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-105"
+                />
+                <span
+                  class:list={[
+                    "absolute left-4 top-4 rounded-full border border-line bg-canvas/80 px-3 py-1 font-mono text-[0.7rem] backdrop-blur-sm",
+                    meta.demoUrl ? "text-teal" : "text-ink-dim"
+                  ]}
+                >
+                  {meta.demoUrl ? t.liveBadge : t.caseStudyBadge}
+                </span>
+              </div>
+
+              <div class="flex flex-col justify-center gap-4 p-6 sm:p-9">
+                <div>
+                  <h3 class="text-2xl">{copy.title}</h3>
+                  <p class="mt-1 font-mono text-xs text-amber">{copy.tagline}</p>
+                </div>
+
+                <div class="space-y-3 text-sm leading-relaxed text-ink-dim">
+                  <p>
+                    <span class="font-mono text-[0.7rem] uppercase tracking-wider text-ink">{t.problemLabel}: </span>
+                    {copy.problem}
+                  </p>
+                  <p>
+                    <span class="font-mono text-[0.7rem] uppercase tracking-wider text-ink">{t.solutionLabel}: </span>
+                    {copy.solution}
+                  </p>
+                </div>
+
+                <ul class="flex flex-wrap gap-2">
+                  {meta.tech.map((tech) => (
+                    <li class="rounded-full border border-line px-3 py-1 font-mono text-[0.7rem] text-ink-dim">{tech}</li>
+                  ))}
+                </ul>
+
+                <p class="text-xs italic text-ink-dim">{copy.note}</p>
+
+                {meta.demoUrl && (
+                  <a
+                    href={meta.demoUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="link-underline w-fit font-mono text-sm text-amber"
+                  >
+                    {t.demoLabel}
+                  </a>
+                )}
+              </div>
+            </article>
+          );
+        })
+      }
+    </div>
+  </div>
+</section>

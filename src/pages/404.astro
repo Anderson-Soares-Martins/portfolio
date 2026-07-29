@@ -1,0 +1,20 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+---
+
+<BaseLayout title="404 — Anderson Soares Martins">
+  <Header />
+  <main id="main" class="flex flex-1 items-center">
+    <div class="container-page py-24 text-center">
+      <p class="section-label justify-center">erro 404</p>
+      <h1 class="mt-6 text-5xl sm:text-6xl">Essa rota não existe.</h1>
+      <p class="mx-auto mt-4 max-w-md text-ink-dim">
+        A página que você procura foi movida, renomeada ou nunca existiu.
+      </p>
+      <a href="/" class="btn btn-primary mt-8 inline-flex">Voltar para o início</a>
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>
